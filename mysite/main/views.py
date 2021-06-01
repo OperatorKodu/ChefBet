@@ -4,10 +4,10 @@ from .models import Category
 
 
 def index(request):
-    category = Category.name
+    category_set = Category.objects.all()
     template = loader.get_template('main/index.html')
     context = {
-        'categories': category,
+        'category_set': category_set,
     }
     return HttpResponse(template.render(context, request))
 
