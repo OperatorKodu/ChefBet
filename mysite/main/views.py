@@ -1,13 +1,15 @@
 from django.http import HttpResponse
 from django.template import loader
-from .models import Category
+from .models import Category, Event
 
 
 def index(request):
     category_set = Category.objects.all()
+    event_set = Event.objects.all()
     template = loader.get_template('main/index.html')
     context = {
         'category_set': category_set,
+        'event_set': event_set,
     }
     return HttpResponse(template.render(context, request))
 

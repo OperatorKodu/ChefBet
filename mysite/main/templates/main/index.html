@@ -35,21 +35,32 @@
             <p class="lead">Znajdziesz tutaj najciekawsze wydarzenia do obstawienia.</p>
         </div>
     </div>
+    <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2" id="categories" style="height: max-content;">
+        <div class="col-lg-2" id="categories" style="height: max-content;">
+            <div class="card mb-3">
+    <div class="card-header">
+        Kategorie
+    </div>
+    <div class="card-body">
             {{ categories }}
-            <ul>
+            <table>
             {% for category in category_set %}
-                <li>{{ category.name }}</li>
+                <tr>
+                    <td><a href="#"><button class="btn btn-light">{{ category.name }}</button></a></td>
+                </tr>
             {% endfor %}
-            </ul>
+            </table>
         </div>
-        <div class="col-md-7" id="main-content" style="height: max-content; background-color: green">
-            Main content
+            </div>
         </div>
-        <div class="col-md-3" id="coupon" style="height: max-content; background-color: red">
+        <div class="col-lg-7" id="main-content" style="height: max-content; background-color: green">
+            {% include "./main.html" %}
+        </div>
+        <div class="col-lg-3" id="coupon" style="height: max-content; background-color: red">
             Coupon
         </div>
+    </div>
     </div>
 </body>
 </html>
