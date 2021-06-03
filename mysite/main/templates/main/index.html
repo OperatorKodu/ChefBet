@@ -5,6 +5,7 @@
     <title>ChefBet</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+    <link rel="stylesheet" type="text/css" href=" {% static 'main/style.css' %}">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
             integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
             crossorigin="anonymous"></script>
@@ -19,7 +20,7 @@
 
 <body style="background-color: #414d55">
 
-<nav class="navbar navbar-default" role="navigation" style="background-color: #00c0e2">
+<nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
             <h1>ChefBet</h1>
@@ -53,7 +54,7 @@
                         {% for category in category_set %}
                             <tr>
                                 <td><a href="#">
-                                    <button class="btn btn-light">{{ category.name }}</button>
+                                    <button class="btn btn-light btn-category">{{ category.name }}</button>
                                 </a></td>
                             </tr>
                         {% endfor %}
@@ -61,10 +62,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-7" id="main-content-container" style="height: max-content; background-color: green">
+        <div class="col-lg-7" id="main-content-container">
             {% include "./main.html" %}
         </div>
-        <div class="col-lg-3" id="coupon-container" style="height: max-content; background-color: red">
+        <div class="col-lg-3" id="coupon-container">
             <div class="card mb-3">
                 <div class="card-header">
                     Stwórz kupon
@@ -80,7 +81,7 @@
                         <table width="100%">
                             <tbody>
                                 <tr>
-                                    <td width="50%" class="td-center" style="text-align: center"><button class="btn btn-primary">Wyczyść</button></td>
+                                    <td width="50%" class="td-center"><button class="btn btn-primary">Wyczyść</button></td>
                                     <td width="50%" class="td-center"><button class="btn btn-primary">Postaw</button></td>
                                 </tr>
                             </tbody>

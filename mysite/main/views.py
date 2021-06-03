@@ -5,7 +5,7 @@ from .models import Category, Event
 
 def index(request):
     category_set = Category.objects.all()
-    event_set = Event.objects.all()
+    event_set = Event.objects.order_by('datetime')
     template = loader.get_template('main/index.html')
     context = {
         'category_set': category_set,

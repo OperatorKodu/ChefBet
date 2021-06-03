@@ -3,10 +3,10 @@
         Zdarzenia
     </div>
     <div class="card-body">
-        <table class="table" id="events_table" style="width: 100%">
+        <table class="table events-table" style="width: 100%">
         <tbody class="table-striped">
             {% for event in event_set %}
-            <tr>
+            <tr class="event-tr">
             <table style="width: 100%">
                 <td width="30%">
                     <h5>{{ event.host }} vs {{ event.guest }}</h5>
@@ -14,15 +14,15 @@
                 {% for type, odds in event.types.Wynik.items %}
                 <td width="*">
                     <table style="margin-left: auto; margin-right: auto">
-                        <tr><td style="text-align: center">{{ type }}</td></tr>
-                        <tr><td style="text-align: center"><button class="btn btn-primary">{{ odds }}</button></td></tr>
+                        <tr><td class="td-center">{{ type }}</td></tr>
+                        <tr><td class="td-center"><button class="btn btn-primary">{{ odds }}</button></td></tr>
                     </table>
                 </td>
                 {% endfor %}
                     <td width="15%">
                         <table style="margin-left: auto; margin-right: auto">
-                            <tr><td style="text-align: center">{{ event.datetime.time }}</td></tr>
-                            <tr><td style="text-align: center">{{ event.datetime.date }}</td></tr>
+                            <tr><td class="td-center">{{ event.datetime.time }}</td></tr>
+                            <tr><td class="td-center">{{ event.datetime.date }}</td></tr>
                         </table>
                     </td>
             <td width="1">
