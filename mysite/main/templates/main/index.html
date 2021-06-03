@@ -1,66 +1,94 @@
 {% load static %}
 
- <!DOCTYPE html>
-<html lang="pl">
+<!DOCTYPE html>
 <head>
     <title>ChefBet</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}"/>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 
 <body style="background-color: #414d55">
 
-    <nav class="navbar navbar-default" role="navigation" style="background-color: #00c0e2">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <h1>ChefBet</h1>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <form>
-                    <input type="email" name="login_email" placeholder="email" style="width: 200px"/>
-                    <input type="password" name="login_password" placeholder="hasło" style="width: 200px"/>
-                    <button type="submit" class="btn btn-secondary">Zaloguj</button>
-                    <button type="button" class="btn btn-light">Zarejestruj</button>
-                </form>
-            </ul>
-        </div>
-    </nav>
-    <div class="jumbotron">
-        <div class="container">
-            <h1 class="display-4">ChefBet</h1>
-            <p class="lead">Znajdziesz tutaj najciekawsze wydarzenia do obstawienia.</p>
-        </div>
-    </div>
+<nav class="navbar navbar-default" role="navigation" style="background-color: #00c0e2">
     <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-2" id="categories" style="height: max-content;">
-            <div class="card mb-3">
-    <div class="card-header">
-        Kategorie
-    </div>
-    <div class="card-body">
-            {{ categories }}
-            <table>
-            {% for category in category_set %}
-                <tr>
-                    <td><a href="#"><button class="btn btn-light">{{ category.name }}</button></a></td>
-                </tr>
-            {% endfor %}
-            </table>
+        <div class="navbar-header">
+            <h1>ChefBet</h1>
         </div>
+        <ul class="nav navbar-nav navbar-right">
+            <form>
+                <input type="email" name="login_email" placeholder="email" style="width: 200px"/>
+                <input type="password" name="login_password" placeholder="hasło" style="width: 200px"/>
+                <button type="submit" class="btn btn-secondary">Zaloguj</button>
+                <button type="button" class="btn btn-light">Zarejestruj</button>
+            </form>
+        </ul>
+    </div>
+</nav>
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">ChefBet</h1>
+        <p class="lead">Znajdziesz tutaj najciekawsze wydarzenia do obstawienia.</p>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2" id="categories-container" style="height: max-content;">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Kategorie
+                </div>
+                <div class="card-body">
+                    {{ categories }}
+                    <table>
+                        {% for category in category_set %}
+                            <tr>
+                                <td><a href="#">
+                                    <button class="btn btn-light">{{ category.name }}</button>
+                                </a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="col-lg-7" id="main-content" style="height: max-content; background-color: green">
+        <div class="col-lg-7" id="main-content-container" style="height: max-content; background-color: green">
             {% include "./main.html" %}
         </div>
-        <div class="col-lg-3" id="coupon" style="height: max-content; background-color: red">
-            Coupon
+        <div class="col-lg-3" id="coupon-container" style="height: max-content; background-color: red">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Stwórz kupon
+                </div>
+                <div class="card-body">
+                    <div id="new-coupon-types">
+                        Added types
+                    </div>
+                    <div id="new-coupon-summary">
+                        Summary
+                    </div>
+                    <div id="new-coupon-buttons">
+                        <table width="100%">
+                            <tbody>
+                                <tr>
+                                    <td width="50%" class="td-center" style="text-align: center"><button class="btn btn-primary">Wyczyść</button></td>
+                                    <td width="50%" class="td-center"><button class="btn btn-primary">Postaw</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
+</div>
 </body>
-</html>
