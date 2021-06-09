@@ -13,10 +13,24 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
+def subpages(request, page):
+    category_set = Category.objects.all()
+    event_set = Event.objects.order_by('datetime')
+    template = loader.get_template('main/index.html')
+    context = {
+        'category_set': category_set,
+        'event_set': event_set,
+        'page': page,
+    }
+    return HttpResponse(template.render(context, request))
 
 def more(request, event_id):
-    response = "You're looking at the more types of event %s."
-    return HttpResponse(response % event_id)
+    event = Event.objects.get(id = event_id)
+    template = loader.get_template('main/index.html')
+    context = {
+        'event': event,
+    }
+    return HttpResponse(template.render(context, request))
 
 
 def my_coupons(request):

@@ -63,7 +63,14 @@
             </div>
         </div>
         <div class="col-lg-7" id="main-content-container">
-            {% include "./main.html" %}
+            {% with allowed_pages='main more my_coupons' %}
+            {% if page != None and page in allowed_pages.split %}
+                {% include "./"|add:page|add:".html" %}
+            {% else %}
+                {% include "./main.html" %}
+            {% endif %}
+
+            {% endwith %}
         </div>
         <div class="col-lg-3" id="coupon-container">
             <div class="card mb-3">
