@@ -1,7 +1,24 @@
 <div class="card mb-3">
-    <div class="card-header">
-        Więcej typów dla eventu nr. {{ event.id }}
+    <div class="card-header" id="more-event-header">
+        <h5 id="more-event-name">{{ event.host }} vs {{ event.guest }}</h5><p id="more-event-datetime">{{ event.datetime|date:"H:i, d.m.Y" }}</p>
     </div>
     <div class="card-body">
+        <table width="100%">
+            <tbody>
+            {% for description, types in event.types.items %}
+            <tr>
+                <td width="35%"><p class="more-event-description">{{ description }}</p></td>
+            {% for type, odds in types.items %}
+                <td width="*">
+                    <table style="margin: auto">
+                        <tr><td class="td-center"><button class="btn btn-light no-click">{{ type }}</button></td></tr>
+                        <tr><td class="td-center"><a><button class="btn btn-primary">{{ odds }}</button></a></td></tr>
+                    </table>
+                </td>
+            {% endfor %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>

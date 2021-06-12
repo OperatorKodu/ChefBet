@@ -13,6 +13,7 @@ class Category(models.Model):
 
 class Event(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
     host = models.CharField(max_length=30, help_text='Enter an event host (e.g. Borussia Dortmund')
     guest = models.CharField(max_length=30, help_text='Enter an event guest (e.g. Bayern Monachium')
     types = models.JSONField(default=dict)

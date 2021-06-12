@@ -1,0 +1,38 @@
+/* index.html*/
+.jumbotron {
+    background-color: #414d55;
+    color: aqua;
+}
+.navbar {
+    background-color: aqua;
+}
+.btn-category {
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+}
+
+/* main.html*/
+.td-center {
+    text-align: center;
+}
+tr {
+    border-bottom: 1px solid #ddd;
+}
+.event-tr {
+    padding: 20px;
+}
+
+/* more.html*/
+#more-event-header {
+    width: 100%;
+}
+#more-event-name {
+    display:inline-block;
+}
+#more-event-datetime {
+    float: right;
+}
+.no-click {
+    pointer-events: none;
+}

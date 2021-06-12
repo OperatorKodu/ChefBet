@@ -25,10 +25,14 @@ def subpages(request, page):
     return HttpResponse(template.render(context, request))
 
 def more(request, event_id):
+    category_set = Category.objects.all()
     event = Event.objects.get(id = event_id)
     template = loader.get_template('main/index.html')
+    page = 'more'
     context = {
+        'category_set': category_set,
         'event': event,
+        'page': page,
     }
     return HttpResponse(template.render(context, request))
 

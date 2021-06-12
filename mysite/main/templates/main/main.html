@@ -9,24 +9,26 @@
             <tr class="event-tr">
             <table style="width: 100%">
                 <td width="30%">
-                    <h5>{{ event.host }} vs {{ event.guest }}</h5>
+                    <h5>{{ event.host }}
+                    <br>vs<br>
+                    {{ event.guest }}</h5>
                 </td>
                 {% for type, odds in event.types.Wynik.items %}
                 <td width="*">
                     <table style="margin-left: auto; margin-right: auto">
-                        <tr><td class="td-center">{{ type }}</td></tr>
+                        <tr><td class="td-center"><button class="btn btn-light no-click">{{ type }}</button></td></tr>
                         <tr><td class="td-center"><button class="btn btn-primary">{{ odds }}</button></td></tr>
                     </table>
                 </td>
                 {% endfor %}
                     <td width="15%">
                         <table style="margin-left: auto; margin-right: auto">
-                            <tr><td class="td-center">{{ event.datetime.time }}</td></tr>
-                            <tr><td class="td-center">{{ event.datetime.date }}</td></tr>
+                            <tr><td class="td-center">{{ event.datetime|date:"H:i" }}</td></tr>
+                            <tr><td class="td-center">{{ event.datetime|date:"d.m.y" }}</td></tr>
                         </table>
                     </td>
             <td width="1">
-                <button class="btn btn-primary">Więcej</button>
+                <a href="/more/{{ event.id }}"><button class="btn btn-primary">Więcej</button></a>
             </td>
             </table>
             </tr>
