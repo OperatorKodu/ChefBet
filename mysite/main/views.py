@@ -1,41 +1,33 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404
 from django.template import loader
 from .models import Category, Event
 
 
-def index(request):
-    category_set = Category.objects.all()
+def main(request):
     event_set = Event.objects.order_by('datetime')
-    template = loader.get_template('main/index.html')
+    template = loader.get_template('main/main.html')
     context = {
-        'category_set': category_set,
         'event_set': event_set,
-    }
-    return HttpResponse(template.render(context, request))
-
-def subpages(request, page):
-    category_set = Category.objects.all()
-    event_set = Event.objects.order_by('datetime')
-    template = loader.get_template('main/index.html')
-    context = {
-        'category_set': category_set,
-        'event_set': event_set,
-        'page': page,
     }
     return HttpResponse(template.render(context, request))
 
 def more(request, event_id):
-    category_set = Category.objects.all()
-    event = Event.objects.get(id = event_id)
-    template = loader.get_template('main/index.html')
-    page = 'more'
+    template = loader.get_template('main/more.html')
+    event = get_object_or_404(Event, id = event_id)
     context = {
-        'category_set': category_set,
         'event': event,
-        'page': page,
     }
     return HttpResponse(template.render(context, request))
 
+def category(request, category_name):
+    template = loader.get_template('main/category.html')
+    event_set = Event.objects.all().filter(category__name = category_name)
+    context = {
+        'category_name': category_name,
+        'event_set': event_set,
+    }
+    return HttpResponse(template.render(context, request))
 
 def my_coupons(request):
     response = "Here you can find your active and old coupons"

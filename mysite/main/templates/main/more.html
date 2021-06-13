@@ -1,3 +1,6 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
 <div class="card mb-3">
     <div class="card-header" id="more-event-header">
         <h5 id="more-event-name">{{ event.host }} vs {{ event.guest }}</h5><p id="more-event-datetime">{{ event.datetime|date:"H:i, d.m.Y" }}</p>
@@ -22,3 +25,4 @@
         </table>
     </div>
 </div>
+{% endblock %}
