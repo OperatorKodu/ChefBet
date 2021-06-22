@@ -32,3 +32,8 @@ def category(request, category_name):
 def my_coupons(request):
     response = "Here you can find your active and old coupons"
     return HttpResponse(response)
+
+def test(request):
+    template = loader.get_template('main/test.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
