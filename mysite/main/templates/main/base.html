@@ -59,16 +59,19 @@
                             </div>
                         </li>
                     </ul>
+                    {% if user.is_authenticated %}
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item"><h2>Witaj {{ user.username }}</h2></li>
+                            <li class="nav-item"><a href="{% url 'logout' %}"><button class="btn btn-secondary">Wyloguj</button></a></li>
+                        </ul>
+                    {% else %}
                     <ul class="navbar-nav ml-auto">
                         <li>
-                            <form>
-                                <input type="email" name="login_email" placeholder="email" style="width: 200px"/>
-                                <input type="password" name="login_password" placeholder="hasło" style="width: 200px"/>
-                                <button type="submit" class="btn btn-secondary">Zaloguj</button>
-                                <button type="button" class="btn btn-light">Zarejestruj</button>
-                            </form>
+                            <a href="{% url 'login' %}"><button class="btn btn-primary">Zaloguj się</button> </a>
+                            <a href="{% url 'signup' %}"><button class="btn btn-light">Zarejestruj</button></a>
                         </li>
                     </ul>
+                    {% endif %}
                 </div>
             </div>
         </nav>
