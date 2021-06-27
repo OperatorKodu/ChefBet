@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
+    'rest_framework',
     'django_json_widget',   #musisz sobie Michał zainstalować pakiet komendą:"pip install django-json-widget"
 ]
 

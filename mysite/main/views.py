@@ -4,6 +4,8 @@ from django.template import loader
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
+from rest_framework import viewsets
+from .serializers import EventsSerializer
 from .models import Category, Event
 
 
@@ -54,3 +56,7 @@ def test(request):
     template = loader.get_template('main/test.html')
     context = {}
     return HttpResponse(template.render(context, request))
+
+class EventsViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all().order_by('datetime');
+    serializer_class = EventsSerializer

@@ -1,7 +1,10 @@
 from django.conf.urls import url
 from django.urls import path, include
-
+from rest_framework import routers
 from . import views
+
+router = routers.DefaultRouter()
+router.register(r'events', views.EventsViewSet)
 
 urlpatterns = [
     path('', views.main, name='main'),
@@ -11,4 +14,5 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     url(r"^accounts/", include("django.contrib.auth.urls")),
     path('test/', views.test, name='test'),
+    path('', include(router.urls)),
 ]

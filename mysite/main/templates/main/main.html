@@ -22,7 +22,7 @@
                 <td width="*">
                     <table style="margin-left: auto; margin-right: auto">
                         <tr><td class="td-center"><button class="btn btn-light no-click">{{ type }}</button></td></tr>
-                        <tr><td class="td-center"><button class="btn btn-warning">{{ odds }}</button></td></tr>
+                        <tr><td class="td-center"><button class="{{ event.id }} {{ type }} Wynik btn btn-warning odds-btn">{{ odds }}</button></td></tr>
                     </table>
                 </td>
                 {% endfor %}
