@@ -1,0 +1,40 @@
+body{
+    background-color: red;
+}
+.sidebar-heading{
+    color: black;
+    font-size:2.75rem;
+    /*font-weight: bold;*/
+    background-color: #ffff2e;
+}
+.navbar{
+    color: black;
+    background-color: #ffff2e;
+}
+.btn-chefbet{
+    background-color: white;
+    border-radius: 4px;
+    padding: 4px 28px;
+}
+/*#boczek{*/
+/*    font-weight: bold;*/
+/*}*/
+
+#sidebar-wrapper{
+    padding: 0px 40px;
+    background-color: aqua;
+
+
+}
+.list-group-item{
+    padding: 100px 40px;
+    position: absolute;
+    height: 100%;
+
+}
+.container-fluid{
+    background-color: #ffff2e;
+}
+#mt-4{
+    font-weight: bold;
+}

@@ -9,6 +9,9 @@ tbody tr .event-row {
 .event-tr {
     padding: 20px;
 }
+.card-body{
+    color: white;
+}
 
 /* more.html*/
 #more-event-header {

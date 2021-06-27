@@ -1,7 +1,9 @@
 {% extends 'main/base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
 
 {% block content %}
-<div class="card mb-3">
+<div class="card bg-dark text-white mb-3">
     <div class="card-header">
         Zdarzenia
     </div>
@@ -20,7 +22,7 @@
                 <td width="*">
                     <table style="margin-left: auto; margin-right: auto">
                         <tr><td class="td-center"><button class="btn btn-light no-click">{{ type }}</button></td></tr>
-                        <tr><td class="td-center"><button class="btn btn-primary">{{ odds }}</button></td></tr>
+                        <tr><td class="td-center"><button class="btn btn-warning">{{ odds }}</button></td></tr>
                     </table>
                 </td>
                 {% endfor %}
@@ -31,7 +33,7 @@
                         </table>
                     </td>
             <td width="1">
-                <a href="/more/{{ event.id }}"><button class="btn btn-primary">Więcej</button></a>
+                <a href="/more/{{ event.id }}"><button class="btn btn-warning">Więcej</button></a>
             </td>
             </table>
             </tr>

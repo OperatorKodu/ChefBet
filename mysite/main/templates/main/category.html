@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-<div class="card mb-3">
+<div class="card card bg-dark text-white mb-3">
     <div class="card-header">
         <h5>{{ category_name }}</h5>
     </div>
@@ -20,18 +20,18 @@
                 <td width="*">
                     <table style="margin-left: auto; margin-right: auto">
                         <tr><td class="td-center"><button class="btn btn-light no-click">{{ type }}</button></td></tr>
-                        <tr><td class="td-center"><button class="btn btn-primary">{{ odds }}</button></td></tr>
+                        <tr><td class="td-center"><button class="btn btn-warning">{{ odds }}</button></td></tr>
                     </table>
                 </td>
                 {% endfor %}
                     <td width="15%">
-                        <table style="margin-left: auto; margin-right: auto">
+                        <table style="margin-left: auto; margin-right: auto;">
                             <tr><td class="td-center">{{ event.datetime|date:"H:i" }}</td></tr>
                             <tr><td class="td-center">{{ event.datetime|date:"d.m.y" }}</td></tr>
                         </table>
                     </td>
             <td width="1">
-                <a href="/more/{{ event.id }}"><button class="btn btn-primary">Więcej</button></a>
+                <a href="/more/{{ event.id }}"><button class="btn btn-warning">Więcej</button></a>
             </td>
             </table>
             </tr>
