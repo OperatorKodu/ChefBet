@@ -24,9 +24,10 @@ class Event(models.Model):
         return title
 
 class Coupon(models.Model):
+    id = models.AutoField(primary_key=True)
     types = models.JSONField(default=dict)
     odds = models.FloatField()
-    contibution = models.FloatField()
+    contribution = models.FloatField()
     prize = models.FloatField(default=0)
     endDate = models.DateTimeField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)

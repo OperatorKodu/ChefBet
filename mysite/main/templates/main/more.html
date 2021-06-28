@@ -6,7 +6,7 @@
         <h5 id="more-event-name">{{ event.host }} vs {{ event.guest }}</h5><p id="more-event-datetime">{{ event.datetime|date:"H:i, d.m.Y" }}</p>
     </div>
     <div class="card-body">
-        <table width="100%">
+        <table class="events-table" width="100%">
             <tbody>
             {% for description, types in event.types.items %}
             <tr>
@@ -15,7 +15,7 @@
                 <td width="*">
                     <table style="margin: auto">
                         <tr><td class="td-center"><button class="btn btn-light no-click">{{ type }}</button></td></tr>
-                        <tr><td class="td-center"><a><button class="btn btn-primary">{{ odds }}</button></a></td></tr>
+                        <tr><td class="td-center"><button class="{{ event.id }} {{ type }} btn btn-primary odds-btn">{{ odds }}</button></td></tr>
                     </table>
                 </td>
             {% endfor %}
