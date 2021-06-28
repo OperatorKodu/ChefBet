@@ -27,7 +27,8 @@
         <div class="sidebar-heading border-bottom bg-light"><h3 id="navbar-header">Kategorie</h3></div>
         <div class="list-group list-group-flush">
             {% for category in category_set %}
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'category' category.name %}">{{ category.name }}</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                   href="{% url 'category' category.name %}">{{ category.name }}</a>
             {% endfor %}
         </div>
     </div>
@@ -85,35 +86,39 @@
                 ID which will toggle the menu when clicked.
             </p>
             <div class="row">
-            <div class="col-lg-9" id="main-content-container">
-            {% block content %}
-            {% endblock %}
-        </div>
-        <div class="col-lg-3" id="coupon-container">
-            <div class="card mb-3">
-                <div class="card-header">
-                    Stwórz kupon
+                <div class="col-lg-9" id="main-content-container">
+                    {% block content %}
+                    {% endblock %}
                 </div>
-                <div class="card-body">
-                    <div id="new-coupon-types">
-                        Added types
-                    </div>
-                    <div id="new-coupon-summary">
-                        Summary
-                    </div>
-                    <div id="new-coupon-buttons">
-                        <table width="100%">
-                            <tbody>
-                                <tr>
-                                    <td width="50%" class="td-center"><button class="btn btn-primary">Wyczyść</button></td>
-                                    <td width="50%" class="td-center"><button class="btn btn-primary">Postaw</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="col-lg-3" id="coupon-container">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            Stwórz kupon
+                        </div>
+                        <div class="card-body">
+                            <div id="new-coupon-types">
+                                Added types
+                            </div>
+                            <div id="new-coupon-summary">
+                                Summary
+                            </div>
+                            <div id="new-coupon-buttons">
+                                <table width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td width="50%" class="td-center">
+                                            <button class="btn btn-primary">Wyczyść</button>
+                                        </td>
+                                        <td width="50%" class="td-center">
+                                            <button class="btn btn-primary">Postaw</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
             </div>
         </div>
     </div>

@@ -3,43 +3,57 @@
 <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
 
 {% block content %}
-<div class="card bg-dark text-white mb-3">
-    <div class="card-header">
-        Zdarzenia
-    </div>
-    <div class="card-body">
-        <table class="table events-table" style="width: 100%">
-        <tbody class="table-striped">
-            {% for event in event_set %}
-            <tr class="event-tr event-row">
-            <table style="width: 100%">
-                <td width="30%">
-                    <h5>{{ event.host }}
-                    <br>vs<br>
-                    {{ event.guest }}</h5>
-                </td>
-                {% for type, odds in event.types.Wynik.items %}
-                <td width="*">
-                    <table style="margin-left: auto; margin-right: auto">
-                        <tr><td class="td-center"><button class="btn btn-light no-click">{{ type }}</button></td></tr>
-                        <tr><td class="td-center"><button class="{{ event.id }} {{ type }} Wynik btn btn-warning odds-btn">{{ odds }}</button></td></tr>
-                    </table>
-                </td>
-                {% endfor %}
-                    <td width="15%">
-                        <table style="margin-left: auto; margin-right: auto">
-                            <tr><td class="td-center">{{ event.datetime|date:"H:i" }}</td></tr>
-                            <tr><td class="td-center">{{ event.datetime|date:"d.m.y" }}</td></tr>
+    <div class="card bg-dark text-white mb-3">
+        <div class="card-header">
+            Zdarzenia
+        </div>
+        <div class="card-body">
+            <table class="table events-table" style="width: 100%">
+                <tbody class="table-striped">
+                {% for event in event_set %}
+                    <tr class="event-tr event-row">
+                        <table style="width: 100%">
+                            <td width="30%">
+                                <h5>{{ event.host }}
+                                    <br>vs<br>
+                                    {{ event.guest }}</h5>
+                            </td>
+                            {% for type, odds in event.types.Wynik.items %}
+                                <td width="*">
+                                    <table style="margin-left: auto; margin-right: auto">
+                                        <tr>
+                                            <td class="td-center">
+                                                <button class="btn btn-light no-click">{{ type }}</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="td-center">
+                                                <button class="{{ event.id }} {{ type }} Wynik btn btn-warning odds-btn">{{ odds }}</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            {% endfor %}
+                            <td width="15%">
+                                <table style="margin-left: auto; margin-right: auto">
+                                    <tr>
+                                        <td class="td-center">{{ event.datetime|date:"H:i" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-center">{{ event.datetime|date:"d.m.y" }}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="1">
+                                <a href="/more/{{ event.id }}">
+                                    <button class="btn btn-warning">Więcej</button>
+                                </a>
+                            </td>
                         </table>
-                    </td>
-            <td width="1">
-                <a href="/more/{{ event.id }}"><button class="btn btn-warning">Więcej</button></a>
-            </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
             </table>
-            </tr>
-            {% endfor %}
-        </tbody>
-        </table>
+        </div>
     </div>
-</div>
 {% endblock %}

@@ -22,18 +22,19 @@
 <body>
 <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
-    <div class="border-end bg-white" id="sidebar-wrapper" >
-        <div class="sidebar-heading border-bottom"> <h5> Kategorie</h5> </div>
+    <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom"><h5> Kategorie</h5></div>
         <div class="list-group" id="boczek" style="background-color: #ffff2e; padding: 20px;">
             {% for category in category_set %}
 
-            <a class="list-group-item list-group-item-action bg-dark text-white"   href="{% url 'category' category.name %}" >{{ category.name }}</a>
-            <br>
+                <a class="list-group-item list-group-item-action bg-dark text-white"
+                   href="{% url 'category' category.name %}">{{ category.name }}</a>
+                <br>
             {% endfor %}
         </div>
         <div>
             <br>
-            <img src="{% static "images/reklama.png" %}"  alt="MiejscenaTWOJAreklame" width="240" height="700">
+            <img src="{% static "images/reklama.png" %}" alt="MiejscenaTWOJAreklame" width="240" height="700">
         </div>
     </div>
 
@@ -68,15 +69,22 @@
                     {% if user.is_authenticated %}
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item"><h2>Witaj {{ user.username }}</h2></li>
-                            <li class="nav-item"><a href="{% url 'logout' %}"><button class="btn btn-secondary">Wyloguj</button></a></li>
+                            <li class="nav-item"><a href="{% url 'logout' %}">
+                                <button class="btn btn-secondary">Wyloguj</button>
+                            </a></li>
                         </ul>
+                        {{ user.id|json_script:"user_id" }}
                     {% else %}
-                    <ul class="navbar-nav ml-auto">
-                        <li>
-                            <a href="{% url 'login' %}"><button class="btn btn-light">Zaloguj się</button> </a>
-                            <a href="{% url 'signup' %}"><button class="btn btn-dark">Zarejestruj</button></a>
-                        </li>
-                    </ul>
+                        <ul class="navbar-nav ml-auto">
+                            <li>
+                                <a href="{% url 'login' %}">
+                                    <button class="btn btn-light">Zaloguj się</button>
+                                </a>
+                                <a href="{% url 'signup' %}">
+                                    <button class="btn btn-dark">Zarejestruj</button>
+                                </a>
+                            </li>
+                        </ul>
                     {% endif %}
                 </div>
             </div>
@@ -87,68 +95,77 @@
             <h2 class="mt-4">Chef Bet - obstawiasz jak SZEF, wygrywasz jak SZEF</h2>
             <br>
             <p>Bądź szefem! Aby wybrać konkretną kategorię naciśnij biały przycisk na górze ekranu. </p>
-{#            <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on#}
-{#                larger screens. When toggled using the button below, the menu will change.</p>#}
-{#            <p>#}
-{#                Make sure to keep all page content within the#}
-{#                <code>#page-content-wrapper</code>#}
-{#                . The top navbar is optional, and just for demonstration. Just create an element with the#}
-{#                <code>#sidebarToggle</code>#}
-{#                ID which will toggle the menu when clicked.#}
-{#            </p>#}
+            {#            <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on#}
+            {#                larger screens. When toggled using the button below, the menu will change.</p>#}
+            {#            <p>#}
+            {#                Make sure to keep all page content within the#}
+            {#                <code>#page-content-wrapper</code>#}
+            {#                . The top navbar is optional, and just for demonstration. Just create an element with the#}
+            {#                <code>#sidebarToggle</code>#}
+            {#                ID which will toggle the menu when clicked.#}
+            {#            </p>#}
             <div class="row">
-            <div class="col-lg-9" id="main-content-container">
-            {% block content %}
-            {% endblock %}
-        </div>
-        <div class="col-lg-3" id="coupon-container">
-            <div class="card bg-dark text-white mb-3">
-                <div class="card-header">
-                    Stwórz kupon
+                <div class="col-lg-8" id="main-content-container">
+                    {% block content %}
+                    {% endblock %}
                 </div>
-                <div class="card-body">
-                    <div id="new-coupon-types">
-                        <table id="coupon-events-table">
-                            <thead><tr>
-                                <th>Spotkanie</th>
-                                <th>Typ</th>
-                                <th>Kurs</th>
-                            </tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                    <div id="new-coupon-summary">
-                        <table id="coupon-summary-table">
-                            <thead><tr>
-                                <th>Kurs całkowity</th>
-                                <th>Stawka</th>
-                                <th>Wygrana</th>
-                            </tr></thead>
-                            <tbody>
-                            <tr>
-                                <td id="summary-odds">1</td>
-                                <td><label>
-                                    <input id="summary-contribution" type="number" value="5" style="width: 70px">
-                                </label></td>
-                                <td id="summary-prize"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <br>
-                    <div id="new-coupon-buttons">
-                        <table width="100%">
-                            <tbody>
-                                <tr>
-                                    <td id="clear-coupon-btn" width="50%" class="td-center"><button class="btn btn-warning">Wyczyść</button></td>
-                                    <td id="submit-coupon-btn" width="50%" class="td-center"><button class="btn btn-warning">Postaw</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="col-lg-4" id="coupon-container">
+                    <div class="card bg-dark text-white mb-3">
+                        <div class="card-header">
+                            Stwórz kupon
+                        </div>
+                        <div class="card-body">
+                            <div id="new-coupon-types">
+                                <table id="coupon-events-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Spotkanie</th>
+                                        <th>Typ</th>
+                                        <th>Kurs</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            <div id="new-coupon-summary">
+                                <table id="coupon-summary-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Kurs całkowity</th>
+                                        <th>Stawka</th>
+                                        <th>Wygrana</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td id="summary-odds">1</td>
+                                        <td><label>
+                                            <input id="summary-contribution" type="number" value="5"
+                                                   style="width: 70px">
+                                        </label></td>
+                                        <td id="summary-prize"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                            <div id="new-coupon-buttons">
+                                <table width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td id="clear-coupon-btn" width="50%" class="td-center">
+                                            <button class="btn btn-warning">Wyczyść</button>
+                                        </td>
+                                        <td id="submit-coupon-btn" width="50%" class="td-center">
+                                            <button class="btn btn-warning">Postaw</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
             </div>
         </div>
     </div>
@@ -156,11 +173,11 @@
 <!-- Footer -->
 <footer class="page-footer font-small blue">
 
-  <!-- Copyright -->
+    <!-- Copyright -->
     <br>
-    <div class="footer-copyright text-center text-dark py-3" style = "background-color: yellow;"><p>Mmmmmmm... st00pka</p>
-  </div>
-  <!-- Copyright -->
+    <div class="footer-copyright text-center text-dark py-3" style="background-color: yellow;"><p>Mmmmmmm... st00pka</p>
+    </div>
+    <!-- Copyright -->
 
 </footer>
 <!-- Footer -->

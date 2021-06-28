@@ -1,21 +1,25 @@
-
 /* main.html*/
 .td-center {
     text-align: center;
 }
+
 tbody tr .event-row {
     background-color: black;
 }
+
 .event-tr {
     padding: 20px;
 }
-.card-body{
+
+.card-body {
     color: white;
 }
-h5{
-     color: white;
+
+h5 {
+    color: white;
 }
-.td-center{
+
+.td-center {
     color: white;
 }
 
@@ -23,12 +27,15 @@ h5{
 #more-event-header {
     width: 100%;
 }
+
 #more-event-name {
-    display:inline-block;
+    display: inline-block;
 }
+
 #more-event-datetime {
     float: right;
 }
+
 .no-click {
     pointer-events: none;
 }
@@ -39,43 +46,43 @@ h5{
 }
 
 #wrapper {
-  overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 #sidebar-wrapper {
-  min-height: 100vh;
-  margin-left: -15rem;
-  transition: margin 0.25s ease-out;
+    min-height: 100vh;
+    margin-left: -15rem;
+    transition: margin 0.25s ease-out;
 }
 
 #sidebar-wrapper .sidebar-heading {
-  padding: 0.875rem 1.25rem;
-  font-size: 1.2rem;
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
 }
 
 #sidebar-wrapper .list-group {
-  width: 15rem;
+    width: 15rem;
 }
 
 #page-content-wrapper {
-  min-width: 100vw;
+    min-width: 100vw;
 }
 
 body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
-  margin-left: 0px;
+    margin-left: 0px;
 }
 
 @media (min-width: 768px) {
-  #sidebar-wrapper {
-    margin-left: 0;
-  }
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
 
-  #page-content-wrapper {
-    min-width: 0;
-    width: 100%;
-  }
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
 
-  body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
-    margin-left: -20rem;
-  }
+    body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+        margin-left: -20rem;
+    }
 }

@@ -65,11 +65,11 @@
         </div>
         <div class="col-lg-7" id="main-content-container">
             {% with allowed_pages='main more my_coupons' %}
-            {% if page != None and page in allowed_pages.split %}
-                {% include "./"|add:page|add:".html" %}
-            {% else %}
-                {% include "./main.html" %}
-            {% endif %}
+                {% if page != None and page in allowed_pages.split %}
+                    {% include "./"|add:page|add:".html" %}
+                {% else %}
+                    {% include "./main.html" %}
+                {% endif %}
 
             {% endwith %}
         </div>
@@ -88,10 +88,14 @@
                     <div id="new-coupon-buttons">
                         <table width="100%">
                             <tbody>
-                                <tr>
-                                    <td width="50%" class="td-center"><button class="btn btn-primary">Wyczyść</button></td>
-                                    <td width="50%" class="td-center"><button class="btn btn-primary">Postaw</button></td>
-                                </tr>
+                            <tr>
+                                <td width="50%" class="td-center">
+                                    <button class="btn btn-primary">Wyczyść</button>
+                                </td>
+                                <td width="50%" class="td-center">
+                                    <button class="btn btn-primary">Postaw</button>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>

@@ -1,13 +1,14 @@
-from django.http import HttpResponse, Http404
-from django.shortcuts import get_object_or_404
-from django.template import loader
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
+from django.template import loader
 from rest_framework import viewsets
+
+from .models import Event, Coupon
 from .serializers import EventsSerializer, CouponsSerializer, UserSerializer
-from .models import Category, Event, Coupon
 
 
 def main(request):
@@ -69,10 +70,11 @@ class EventsViewSet(viewsets.ModelViewSet):
     serializer_class = EventsSerializer
 
 
-class CouponsViewSet(viewsets.ModelViewSet):
-    queryset = Coupon.objects.all().order_by('id')
-    serializer_class = CouponsSerializer
-
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
+
+
+class CouponsViewSet(viewsets.ModelViewSet):
+    queryset = Coupon.objects.all().order_by('id')
+    serializer_class = CouponsSerializer

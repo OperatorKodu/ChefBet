@@ -1,5 +1,21 @@
 window.addEventListener('DOMContentLoaded', event => {
 
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
     // Toggle the side navigation
     const sidebarToggle = document.body.querySelector('#sidebarToggle');
     if (sidebarToggle) {
@@ -14,13 +30,13 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
-    $(document).on('click', '.odds-btn', function(e){
+    $(document).on('click', '.odds-btn', function (e) {
 
-        function tableContains(id){
+        function tableContains(id) {
             let matched = false;
-            $('#coupon-events-table tbody tr').each(function (){
+            $('#coupon-events-table tbody tr').each(function () {
                 //console.log($(this).attr('id') + "=" + parseInt(id));
-                if (parseInt($(this).attr('id')) === parseInt(id)){
+                if (parseInt($(this).attr('id')) === parseInt(id)) {
                     matched = true
                     return true;
                 }
@@ -42,9 +58,9 @@ window.addEventListener('DOMContentLoaded', event => {
         var event_name;
         var odds;
 
-        if (tableContains(event_id)){
+        if (tableContains(event_id)) {
             alert('Zakład dotyczący tego wydarzenia już istnieje');
-        }else {
+        } else {
 
             $.ajax({
                 url: "/events/",
@@ -69,16 +85,48 @@ window.addEventListener('DOMContentLoaded', event => {
                 alert("Nie udalo sie pobrac danych.");
             });
         }
+    });
 
-        $('#clear-coupon-btn').click(function () {
-            $('#coupon-events-table tbody').empty();
-            $('#summary-odds').text(1);
-            $('#summary-contribution').val(5);
-            $('#summary-prize').text(0);
-        });
+    $('#clear-coupon-btn').click(function () {
+        $('#coupon-events-table tbody').empty();
+        $('#summary-odds').text(1);
+        $('#summary-contribution').val(5);
+        $('#summary-prize').text(0);
+    });
 
-        $('#submit-coupon-btn').click(function () {
+    $('#submit-coupon-btn').click(function () {
 
+        const csrftoken = getCookie('csrftoken');
+        let types = '{"types": [';
+        $('#coupon-events-table tbody').find('tr').each(function () {
+            let event_id = $(this).attr('id');
+            let text = $(this).find('#type_desc').text();
+            text = text.split(':');
+            types = types + '{"event_id": ' + event_id + ', "' + text[0] + '": "' + text[1].trimLeft() + '"},';
+        })
+        types = types.slice(0, -1) + '],';
+        let odds = '"odds": ' + $('#summary-odds').text() + ',';
+        let contribution = '"contribution": ' + $('#summary-contribution').val() + ',';
+        let prize = '"prize": ' + $('#summary-prize').text() + ',';
+        const user_id = JSON.parse(document.getElementById('user_id').textContent);
+        let author = '"author": "http://127.0.0.1:8000/users/' + user_id + '/"}';
+
+        let coupon = JSON.parse(types + odds + contribution + prize + author);
+
+        $.ajax({
+            type: "POST",
+            url: "/coupons/",
+            // The key needs to match your method's input parameter (case-sensitive).
+            data: JSON.stringify(coupon),
+            headers: {"X-CSRFToken": csrftoken},
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                alert("Pomyślnie postawiono kuponik");
+            },
+            error: function (errMsg) {
+                alert("Cosik posło nie tak");
+            }
         });
     });
 

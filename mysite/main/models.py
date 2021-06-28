@@ -1,6 +1,8 @@
-from django.db import models
 from datetime import datetime
+
 from django.contrib.auth.models import User
+from django.db import models
+
 
 # Create your models here.
 
@@ -23,15 +25,16 @@ class Event(models.Model):
         title = self.host + ' vs ' + self.guest
         return title
 
+
 class Coupon(models.Model):
     id = models.AutoField(primary_key=True)
     types = models.JSONField(default=dict)
     odds = models.FloatField()
     contribution = models.FloatField()
     prize = models.FloatField(default=0)
-    endDate = models.DateTimeField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, to_field="id")
+
 
 class Wallet(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, to_field="id")
     money = models.FloatField(default=0)
