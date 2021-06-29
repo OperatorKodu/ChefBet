@@ -32,9 +32,13 @@ class Coupon(models.Model):
     odds = models.FloatField()
     contribution = models.FloatField()
     prize = models.FloatField(default=0)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, to_field="id")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
 
 
 class Wallet(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, to_field="id")
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     money = models.FloatField(default=0)
+
+    def __str__(self):
+        name = self.owner.username + "'s wallet"
+        return name

@@ -8,6 +8,7 @@ router = routers.DefaultRouter()
 router.register(r'events', views.EventsViewSet)
 router.register(r'coupons', views.CouponsViewSet)
 router.register(r'users', views.UserViewSet)
+router.register(r'wallets', views.WalletViewSet)
 
 urlpatterns = [
     path('', views.main, name='main'),
@@ -17,5 +18,7 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     url(r"^accounts/", include("django.contrib.auth.urls")),
     path('test/', views.test, name='test'),
+    path('top-up-wallet', views.top_up_wallet, name='top-up-wallet'),
+    path('my-coupons', views.my_coupons, name='my-coupons'),
     path('', include(router.urls)),
 ]

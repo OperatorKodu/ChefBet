@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+
+{% block content %}
+    <div class="card bg-dark text-white mb-3">
+        <div class="card-header">
+            Moje kupony
+        </div>
+        <div class="card-body">
+            <table class="table events-table" style="width: 100%">
+            <thead>
+            <tr>
+                <td>Stawka</td>
+                <td>Kurs</td>
+                <td>Możliwa wygrana</td>
+            </tr>
+            </thead>
+                <tbody class="table-striped">
+                {% for coupon in my_coupons_set %}
+                    <tr>
+                    <td>{{ coupon.contribution }}</td>
+                    <td>{{ coupon.odds }}</td>
+                    <td>{{ coupon.prize }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

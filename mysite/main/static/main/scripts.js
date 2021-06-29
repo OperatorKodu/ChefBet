@@ -16,6 +16,34 @@ window.addEventListener('DOMContentLoaded', event => {
         return cookieValue;
     }
 
+    function displayWalletContent() {
+        $.ajax({
+            url: "/wallets/",
+            type: "GET",
+            dataType: "json",
+        }).done(function (json) {
+            json.forEach(function (wallet) {
+                $('#wallet-content').val(wallet.money);
+            });
+        });
+    }
+
+    function updateWalletContent(newMoney) {
+        const csrftoken = getCookie('csrftoken');
+        let data = {"money": newMoney};
+        $.ajax({
+            type: 'PUT',
+            url: '/wallets/1/',
+            headers: {"X-CSRFToken": csrftoken},
+            contentType: 'application/json',
+            data: JSON.stringify(data), // access in body
+        }).done(function () {
+            console.log('SUCCESS');
+        }).fail(function (msg) {
+            console.log('FAIL');
+        });
+    }
+
     // Toggle the side navigation
     const sidebarToggle = document.body.querySelector('#sidebarToggle');
     if (sidebarToggle) {
@@ -29,7 +57,7 @@ window.addEventListener('DOMContentLoaded', event => {
             localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
         });
     }
-
+    displayWalletContent();
     $(document).on('click', '.odds-btn', function (e) {
 
         function tableContains(id) {
@@ -95,39 +123,53 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 
     $('#submit-coupon-btn').click(function () {
+        if (document.getElementById('user_id') == null) {
+            alert('Tylko zalogowani użytkownicy mogą obstawiać');
+        } else {
+            const user_id = JSON.parse(document.getElementById('user_id').textContent);
+            const csrftoken = getCookie('csrftoken');
+            let types = '{"types": [';
+            $('#coupon-events-table tbody').find('tr').each(function () {
+                let event_id = $(this).attr('id');
+                let text = $(this).find('#type_desc').text();
+                text = text.split(':');
+                types = types + '{"event_id": ' + event_id + ', "' + text[0] + '": "' + text[1].trimLeft() + '"},';
+            })
+            types = types.slice(0, -1) + '],';
+            let odds = '"odds": ' + $('#summary-odds').text() + ',';
+            let contribution = '"contribution": ' + $('#summary-contribution').val() + ',';
+            let prize = '"prize": ' + $('#summary-prize').text() + ',';
+            let author = '"author": "http://127.0.0.1:8000/users/' + user_id + '/"}';
 
-        const csrftoken = getCookie('csrftoken');
-        let types = '{"types": [';
-        $('#coupon-events-table tbody').find('tr').each(function () {
-            let event_id = $(this).attr('id');
-            let text = $(this).find('#type_desc').text();
-            text = text.split(':');
-            types = types + '{"event_id": ' + event_id + ', "' + text[0] + '": "' + text[1].trimLeft() + '"},';
-        })
-        types = types.slice(0, -1) + '],';
-        let odds = '"odds": ' + $('#summary-odds').text() + ',';
-        let contribution = '"contribution": ' + $('#summary-contribution').val() + ',';
-        let prize = '"prize": ' + $('#summary-prize').text() + ',';
-        const user_id = JSON.parse(document.getElementById('user_id').textContent);
-        let author = '"author": "http://127.0.0.1:8000/users/' + user_id + '/"}';
+            let coupon = JSON.parse(types + odds + contribution + prize + author);
 
-        let coupon = JSON.parse(types + odds + contribution + prize + author);
-
-        $.ajax({
-            type: "POST",
-            url: "/coupons/",
-            // The key needs to match your method's input parameter (case-sensitive).
-            data: JSON.stringify(coupon),
-            headers: {"X-CSRFToken": csrftoken},
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-                alert("Pomyślnie postawiono kuponik");
-            },
-            error: function (errMsg) {
-                alert("Cosik posło nie tak");
+            let newMoney = parseFloat($("#wallet-content").val()) - parseFloat($('#summary-contribution').val());
+            if (newMoney >= 0) {
+            $.ajax({
+                type: "POST",
+                url: "/coupons/",
+                // The key needs to match your method's input parameter (case-sensitive).
+                data: JSON.stringify(coupon),
+                headers: {"X-CSRFToken": csrftoken},
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                    alert("Pomyślnie postawiono kuponik");
+                },
+                error: function (errMsg) {
+                    alert("Cosik posło nie tak");
+                }
+            });
+                updateWalletContent(newMoney);
+                displayWalletContent();
+            } else {
+                alert("Brak środków w portfelu");
             }
-        });
+        }
+    });
+
+    $('#top-up-wallet').click(function () {
+        updateWalletContent(parseFloat($('#top-up-amount').val()) + parseFloat($("#wallet-content").val()))
     });
 
 });

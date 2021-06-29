@@ -1,14 +1,16 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.template import loader
 from rest_framework import viewsets
 
-from .models import Event, Coupon
-from .serializers import EventsSerializer, CouponsSerializer, UserSerializer
+from .models import Event, Coupon, Wallet
+from .serializers import EventsSerializer, CouponsSerializer, UserSerializer, WalletSerializer
 
 
 def main(request):
@@ -65,6 +67,19 @@ def test(request):
     return HttpResponse(template.render(context, request))
 
 
+def top_up_wallet(request):
+    template = loader.get_template('main/top_up_wallet.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
+def my_coupons(request):
+    template = loader.get_template('main/my_coupons.html')
+    coupons_set = Coupon.objects.get_queryset()
+    my_coupons_set = coupons_set.filter(author=request.user)
+    context = {"my_coupons_set": my_coupons_set}
+    return HttpResponse(template.render(context, request))
+
+
 class EventsViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all().order_by('datetime')
     serializer_class = EventsSerializer
@@ -78,3 +93,22 @@ class UserViewSet(viewsets.ModelViewSet):
 class CouponsViewSet(viewsets.ModelViewSet):
     queryset = Coupon.objects.all().order_by('id')
     serializer_class = CouponsSerializer
+
+
+class WalletViewSet(viewsets.ModelViewSet):
+    queryset = Wallet.objects.all()
+    serializer_class = WalletSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        query_set = queryset.filter(owner=self.request.user)
+        return query_set
+
+    def get_object(self):
+        return get_object_or_404(Wallet, owner=self.request.user)
+
+
+@receiver(post_save, sender=User)
+def create_user_wallet(sender, instance, created, **kwargs):
+    if created:
+        Wallet.objects.create(owner=instance)
