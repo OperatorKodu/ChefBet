@@ -62,8 +62,11 @@ def my_coupons(request):
 
 
 def test(request):
+    event_set = Event.objects.order_by('datetime')
     template = loader.get_template('main/test.html')
-    context = {}
+    context = {
+        'event_set': event_set,
+    }
     return HttpResponse(template.render(context, request))
 
 
@@ -71,6 +74,7 @@ def top_up_wallet(request):
     template = loader.get_template('main/top_up_wallet.html')
     context = {}
     return HttpResponse(template.render(context, request))
+
 
 def my_coupons(request):
     template = loader.get_template('main/my_coupons.html')

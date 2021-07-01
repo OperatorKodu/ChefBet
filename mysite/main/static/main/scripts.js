@@ -72,43 +72,46 @@ window.addEventListener('DOMContentLoaded', event => {
             return matched;
         }
 
-        var source = $(e.target);
-        var classes = source.attr('class').split(' ');
-        var event_id = classes[0];
-        var type = classes[1];
-        if (classes[2] === "Wynik") {
-            var type_description = "Wynik";
-        } else {
-            var type_description = source.parent().parent().parent().parent().parent().parent().find('.more-event-description').text();
-            //var type_description = "Wynik";
-            console.log(type_description);
-        }
-        var event_name;
-        var odds;
+        let source = $(e.target);
+        let classes = source.attr('class').split(' ');
+        let event_id = classes[0];
+        let type_id = parseInt(classes[1]);
+        let type = classes[2];
 
         if (tableContains(event_id)) {
             alert('Zakład dotyczący tego wydarzenia już istnieje');
         } else {
 
             $.ajax({
-                url: "/events/",
+                url: "/events/" + event_id + "/",
                 type: "GET",
                 dataType: "json",
-            }).done(function (json) {
-                json.forEach(function (obj) {
-                    if (parseInt(obj.id) === parseInt(event_id)) {
-                        let event = obj;
-                        event_name = event.host + " vs " + event.guest;
-                        odds = parseFloat(event.types[type_description][type]);
-                        $('#coupon-events-table').find('tbody').append("<tr id='" + event_id + "'><td id='event_name'>" + event_name + "</td><td id='type_desc'>" + type_description + ": " + type + "</td><td id='odds'>" + odds + "</td></tr>");
-                        let old_odds = parseFloat($('#summary-odds').text());
+            }).done(function (event) {
+                let possibilities = event.types[type_id-1].possibilities;
+                let event_name = event.host + " vs " + event.guest;
+                let odds;
+                for (let i = 0; i < possibilities.length; i++) {
+                    if (possibilities[i][type] != null) {
+                        odds = possibilities[i][type];
+                        break;
+                    }
+                }
+
+                $('#coupon-events-table').find('tbody').append(
+                    "<tr id='" + event_id + "'>" +
+                        "<td id='event_name'>" + event_name + "</td>" +
+                        "<td id='type_desc'>" + event.types[type_id-1].description + ": " + type + "</td>" +
+                        "<td id='odds'>" + odds + "</td>" +
+                    "</tr>"
+                );
+
+                let old_odds = parseFloat($('#summary-odds').text());
                         let summary_odds = old_odds * odds;
                         console.log(summary_odds);
                         $('#summary-odds').text(summary_odds);
                         let summary_prize = parseFloat($('#summary-contribution').val()) * summary_odds;
                         $('#summary-prize').text(summary_prize);
-                    }
-                });
+
             }).fail(function (xhr, status, errorThrown) {
                 alert("Nie udalo sie pobrac danych.");
             });
