@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.template import loader
 from rest_framework import viewsets
+import json
 
 from .models import Event, Coupon, Wallet
 from .serializers import EventsSerializer, CouponsSerializer, UserSerializer, WalletSerializer
@@ -98,6 +99,24 @@ class CouponsViewSet(viewsets.ModelViewSet):
     queryset = Coupon.objects.all().order_by('id')
     serializer_class = CouponsSerializer
 
+    def perform_create(self, serializer):
+        factor = 1;
+        for bet in serializer.validated_data['types']:
+            event = Event.objects.get(id=bet['event_id'])
+            for type in event.types:
+                if type['id'] == bet['type_id']:
+                    for possibility in type['possibilities']:
+                        if bet['type'] in possibility:
+                            factor = factor * possibility[bet['type']]
+                            break
+
+                    break
+
+        prize = serializer.validated_data['contribution'] * factor
+
+        serializer.save(author=self.request.user, odds=factor, prize=prize)
+
+
 
 class WalletViewSet(viewsets.ModelViewSet):
     queryset = Wallet.objects.all()
@@ -111,6 +130,10 @@ class WalletViewSet(viewsets.ModelViewSet):
     def get_object(self):
         return get_object_or_404(Wallet, owner=self.request.user)
 
+    def perform_update(self, serializer):
+        wallet = Wallet.objects.get(owner=self.request.user)
+        sum = serializer.validated_data['money'] + wallet.money
+        serializer.save(money=sum)
 
 @receiver(post_save, sender=User)
 def create_user_wallet(sender, instance, created, **kwargs):

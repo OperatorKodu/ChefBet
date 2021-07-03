@@ -28,9 +28,9 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
-    function updateWalletContent(newMoney) {
+    function topUpWalletContent(money) {
         const csrftoken = getCookie('csrftoken');
-        let data = {"money": newMoney};
+        let data = {"money": money};
         $.ajax({
             type: 'PUT',
             url: '/wallets/1/',
@@ -98,7 +98,7 @@ window.addEventListener('DOMContentLoaded', event => {
                 }
 
                 $('#coupon-events-table').find('tbody').append(
-                    "<tr id='" + event_id + "'>" +
+                    "<tr id='" + event_id + "' class='" + type_id + "'>" +
                         "<td id='event_name'>" + event_name + "</td>" +
                         "<td id='type_desc'>" + event.types[type_id-1].description + ": " + type + "</td>" +
                         "<td id='odds'>" + odds + "</td>" +
@@ -134,17 +134,15 @@ window.addEventListener('DOMContentLoaded', event => {
             let types = '{"types": [';
             $('#coupon-events-table tbody').find('tr').each(function () {
                 let event_id = $(this).attr('id');
-                let text = $(this).find('#type_desc').text();
-                text = text.split(':');
-                types = types + '{"event_id": ' + event_id + ', "' + text[0] + '": "' + text[1].trimLeft() + '"},';
+                let type_id = $(this).attr('class');
+                let type_desc = $(this).find('#type_desc').text();
+                let type = type_desc.split(':')[1].trimLeft();
+                types = types + '{"event_id": ' + event_id + ', "type_id": ' + type_id + ', "type": "' + type + '"},';
             })
             types = types.slice(0, -1) + '],';
-            let odds = '"odds": ' + $('#summary-odds').text() + ',';
-            let contribution = '"contribution": ' + $('#summary-contribution').val() + ',';
-            let prize = '"prize": ' + $('#summary-prize').text() + ',';
-            let author = '"author": "http://127.0.0.1:8000/users/' + user_id + '/"}';
+            let contribution = '"contribution": ' + $('#summary-contribution').val() + '}';
 
-            let coupon = JSON.parse(types + odds + contribution + prize + author);
+            let coupon = JSON.parse(types + contribution);
 
             let newMoney = parseFloat($("#wallet-content").val()) - parseFloat($('#summary-contribution').val());
             if (newMoney >= 0) {
@@ -158,13 +156,13 @@ window.addEventListener('DOMContentLoaded', event => {
                 dataType: "json",
                 success: function (data) {
                     alert("Pomyślnie postawiono kuponik");
+                    topUpWalletContent(newMoney);
+                    displayWalletContent();
                 },
                 error: function (errMsg) {
                     alert("Cosik posło nie tak");
                 }
             });
-                updateWalletContent(newMoney);
-                displayWalletContent();
             } else {
                 alert("Brak środków w portfelu");
             }
@@ -172,7 +170,8 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 
     $('#top-up-wallet').click(function () {
-        updateWalletContent(parseFloat($('#top-up-amount').val()) + parseFloat($("#wallet-content").val()))
+        topUpWalletContent(parseFloat($('#top-up-amount').val()));
+        displayWalletContent();
     });
 
 });

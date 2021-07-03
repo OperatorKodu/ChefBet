@@ -14,6 +14,7 @@ class CouponsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Coupon
         fields = ['id', 'types', 'odds', 'contribution', 'prize', 'author']
+        read_only_fields = ['id', 'odds', 'prize', 'author']
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

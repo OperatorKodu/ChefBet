@@ -29,10 +29,10 @@ class Event(models.Model):
 class Coupon(models.Model):
     id = models.AutoField(primary_key=True)
     types = models.JSONField(default=dict)
-    odds = models.FloatField()
+    odds = models.FloatField(default=1)
     contribution = models.FloatField()
     prize = models.FloatField(default=0)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id", null=True)
 
 
 class Wallet(models.Model):
