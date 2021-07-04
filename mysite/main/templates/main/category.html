@@ -16,23 +16,21 @@
                                     <br>vs<br>
                                     {{ event.guest }}</h5>
                             </td>
-                            {% for cell in event.types.0.possibilities %}
-                                {% for type, odds in cell.items %}
-                                    <td width="*">
-                                        <table style="margin-left: auto; margin-right: auto">
-                                            <tr>
-                                                <td class="td-center">
-                                                    <button class="btn btn-light no-click">{{ type }}</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="td-center">
-                                                    <button class="{{ event.id }} {{ event.types.0.id }} {{ type }} Wynik btn btn-warning odds-btn">{{ odds }}</button>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                {% endfor %}
+                            {% for possibility in event.types.0.possibilities %}
+                                <td width="*">
+                                    <table style="margin-left: auto; margin-right: auto">
+                                        <tr>
+                                            <td class="td-center">
+                                                <button class="btn btn-light no-click">{{ possibility.type }}</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="td-center">
+                                                <button class="{{ event.id }} {{ event.types.0.id }} {{ possibility.id }} Wynik btn btn-warning odds-btn">{{ possibility.odds }}</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
                             {% endfor %}
                             <td width="15%">
                                 <table style="margin-left: auto; margin-right: auto;">

@@ -1,14 +1,13 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.template import loader
 from rest_framework import viewsets
-import json
 
 from .models import Event, Coupon, Wallet
 from .serializers import EventsSerializer, CouponsSerializer, UserSerializer, WalletSerializer
@@ -106,8 +105,8 @@ class CouponsViewSet(viewsets.ModelViewSet):
             for type in event.types:
                 if type['id'] == bet['type_id']:
                     for possibility in type['possibilities']:
-                        if bet['type'] in possibility:
-                            factor = factor * possibility[bet['type']]
+                        if bet['type'] == possibility['type']:
+                            factor = factor * possibility['odds']
                             break
 
                     break
@@ -115,7 +114,6 @@ class CouponsViewSet(viewsets.ModelViewSet):
         prize = serializer.validated_data['contribution'] * factor
 
         serializer.save(author=self.request.user, odds=factor, prize=prize)
-
 
 
 class WalletViewSet(viewsets.ModelViewSet):
@@ -132,8 +130,10 @@ class WalletViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         wallet = Wallet.objects.get(owner=self.request.user)
-        sum = serializer.validated_data['money'] + wallet.money
+        print(serializer.validated_data['money'])
+        sum = wallet.money + serializer.validated_data['money']
         serializer.save(money=sum)
+
 
 @receiver(post_save, sender=User)
 def create_user_wallet(sender, instance, created, **kwargs):

@@ -60,7 +60,11 @@
                     </ul>
                     {% if user.is_authenticated %}
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item"><label for="wallet-content">Portfel:</label><input id="wallet-content" type="number" disabled style="width: 100px"></li>
+                            <li class="nav-item"><label for="wallet-content">Portfel:</label><input id="wallet-content"
+                                                                                                    type="number"
+                                                                                                    disabled
+                                                                                                    style="width: 100px">
+                            </li>
                             <li class="nav-item"><h2>Witaj <b><i>{{ user.username }}</i></b></h2></li>
                             <li class="nav-item"><a href="{% url 'logout' %}">
                                 <button class="btn btn-secondary">Wyloguj</button>

@@ -12,23 +12,21 @@
                 {% for bet in event.types %}
                     <tr>
                         <td width="35%"><p class="more-event-description">{{ bet.description }}</p></td>
-                        {% for cell in bet.possibilities %}
-                            {% for type, odds in cell.items %}
-                                <td width="*">
-                                    <table style="margin: auto">
-                                        <tr>
-                                            <td class="td-center">
-                                                <button class="btn btn-light no-click">{{ type }}</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-center">
-                                                <button class="{{ event.id }} {{ bet.id }} {{ type }} btn btn-primary odds-btn">{{ odds }}</button>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            {% endfor %}
+                        {% for possibility in bet.possibilities %}
+                            <td width="*">
+                                <table style="margin: auto">
+                                    <tr>
+                                        <td class="td-center">
+                                            <button class="btn btn-light no-click">{{ possibility.type }}</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-center">
+                                            <button class="{{ event.id }} {{ bet.id }} {{ possibility.id }} btn btn-primary odds-btn">{{ possibility.odds }}</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
                         {% endfor %}
                     </tr>
                 {% endfor %}

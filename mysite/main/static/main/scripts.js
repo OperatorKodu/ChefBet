@@ -28,7 +28,7 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
-    function topUpWalletContent(money) {
+    function modifyWalletContent(money) {
         const csrftoken = getCookie('csrftoken');
         let data = {"money": money};
         $.ajax({
@@ -76,7 +76,7 @@ window.addEventListener('DOMContentLoaded', event => {
         let classes = source.attr('class').split(' ');
         let event_id = classes[0];
         let type_id = parseInt(classes[1]);
-        let type = classes[2];
+        let possibility_id = parseInt(classes[2]);
 
         if (tableContains(event_id)) {
             alert('Zakład dotyczący tego wydarzenia już istnieje');
@@ -87,30 +87,33 @@ window.addEventListener('DOMContentLoaded', event => {
                 type: "GET",
                 dataType: "json",
             }).done(function (event) {
-                let possibilities = event.types[type_id-1].possibilities;
+                let possibilities = event.types[type_id - 1].possibilities;
                 let event_name = event.host + " vs " + event.guest;
                 let odds;
+                let type;
                 for (let i = 0; i < possibilities.length; i++) {
-                    if (possibilities[i][type] != null) {
-                        odds = possibilities[i][type];
+                    if (possibilities[i]['id'] === possibility_id) {
+                        odds = possibilities[i]['odds'];
+                        type = possibilities[i]['type'];
+                        console.log(possibility_id)
                         break;
                     }
                 }
 
                 $('#coupon-events-table').find('tbody').append(
                     "<tr id='" + event_id + "' class='" + type_id + "'>" +
-                        "<td id='event_name'>" + event_name + "</td>" +
-                        "<td id='type_desc'>" + event.types[type_id-1].description + ": " + type + "</td>" +
-                        "<td id='odds'>" + odds + "</td>" +
+                    "<td id='event_name'>" + event_name + "</td>" +
+                    "<td id='type_desc'>" + event.types[type_id - 1].description + ": " + type + "</td>" +
+                    "<td id='odds'>" + odds + "</td>" +
                     "</tr>"
                 );
 
                 let old_odds = parseFloat($('#summary-odds').text());
-                        let summary_odds = old_odds * odds;
-                        console.log(summary_odds);
-                        $('#summary-odds').text(summary_odds);
-                        let summary_prize = parseFloat($('#summary-contribution').val()) * summary_odds;
-                        $('#summary-prize').text(summary_prize);
+                let summary_odds = old_odds * odds;
+                console.log(summary_odds);
+                $('#summary-odds').text(summary_odds);
+                let summary_prize = parseFloat($('#summary-contribution').val()) * summary_odds;
+                $('#summary-prize').text(summary_prize);
 
             }).fail(function (xhr, status, errorThrown) {
                 alert("Nie udalo sie pobrac danych.");
@@ -138,31 +141,38 @@ window.addEventListener('DOMContentLoaded', event => {
                 let type_desc = $(this).find('#type_desc').text();
                 let type = type_desc.split(':')[1].trimLeft();
                 types = types + '{"event_id": ' + event_id + ', "type_id": ' + type_id + ', "type": "' + type + '"},';
-            })
+            });
+
             types = types.slice(0, -1) + '],';
             let contribution = '"contribution": ' + $('#summary-contribution').val() + '}';
 
             let coupon = JSON.parse(types + contribution);
 
-            let newMoney = parseFloat($("#wallet-content").val()) - parseFloat($('#summary-contribution').val());
-            if (newMoney >= 0) {
-            $.ajax({
-                type: "POST",
-                url: "/coupons/",
-                // The key needs to match your method's input parameter (case-sensitive).
-                data: JSON.stringify(coupon),
-                headers: {"X-CSRFToken": csrftoken},
-                contentType: "application/json",
-                dataType: "json",
-                success: function (data) {
-                    alert("Pomyślnie postawiono kuponik");
-                    topUpWalletContent(newMoney);
-                    displayWalletContent();
-                },
-                error: function (errMsg) {
-                    alert("Cosik posło nie tak");
+            let wallet_content = parseFloat($("#wallet-content").val());
+            let contribution_money = parseFloat($('#summary-contribution').val());
+            wallet_content = wallet_content - contribution_money;
+            if (wallet_content >= 0) {
+                if (parseFloat($('#summary-contribution').val()) > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/coupons/",
+                        // The key needs to match your method's input parameter (case-sensitive).
+                        data: JSON.stringify(coupon),
+                        headers: {"X-CSRFToken": csrftoken},
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (data) {
+                            alert("Pomyślnie postawiono kuponik - zieloności wariacie");
+                            modifyWalletContent(-contribution_money);
+                            displayWalletContent();
+                        },
+                        error: function (errMsg) {
+                            alert("Cosik posło nie tak");
+                        }
+                    });
+                } else {
+                    alert("Stawka nie może być mniejsza niż 0");
                 }
-            });
             } else {
                 alert("Brak środków w portfelu");
             }
@@ -170,7 +180,7 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 
     $('#top-up-wallet').click(function () {
-        topUpWalletContent(parseFloat($('#top-up-amount').val()));
+        modifyWalletContent(parseFloat($('#top-up-amount').val()));
         displayWalletContent();
     });
 
