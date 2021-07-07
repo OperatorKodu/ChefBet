@@ -1,3 +1,7 @@
+from datetime import datetime
+from django.utils import timezone
+from random import randint
+
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -14,7 +18,7 @@ from .serializers import EventsSerializer, CouponsSerializer, UserSerializer, Wa
 
 
 def main(request):
-    event_set = Event.objects.order_by('datetime')
+    event_set = Event.objects.order_by('start_datetime')
     template = loader.get_template('main/main.html')
     context = {
         'event_set': event_set,
@@ -56,18 +60,43 @@ def signup(request):
     return render(request, 'main/signup.html', {'form': form})
 
 
-def my_coupons(request):
-    response = "Here you can find your active and old coupons"
-    return HttpResponse(response)
-
-
 def test(request):
-    event_set = Event.objects.order_by('datetime')
-    template = loader.get_template('main/test.html')
-    context = {
-        'event_set': event_set,
-    }
-    return HttpResponse(template.render(context, request))
+
+    def sendPrize(owner, prize):
+        wallet = Wallet.objects.get(owner=owner)
+        wallet.money += prize
+        wallet.save()
+
+    coupons_set = Coupon.objects.filter(is_active=True)
+    for coupon in coupons_set:
+        bets_count = len(coupon.types)
+        correct_types_counter = 0
+        settled_events_counter = 0
+
+        for bet in coupon.types:
+            event = Event.objects.get(id=bet['event_id'])
+            if event.is_settled == False:
+                break
+
+            for type in event.types:
+                if type['id'] == bet['type_id']:
+                    print(type['correct_types'], '==', bet['type'])
+                    if bet['type'] in type['correct_types']:
+                        correct_types_counter += 1
+                    break
+            settled_events_counter += 1
+
+        if settled_events_counter >= bets_count:
+            coupon.is_active = False
+
+            if correct_types_counter >= bets_count:
+                coupon.is_winning = True
+                sendPrize(coupon.author, coupon.prize)
+
+        coupon.save()
+
+
+    return HttpResponse("chyba dziala")
 
 
 def top_up_wallet(request):
@@ -85,7 +114,7 @@ def my_coupons(request):
 
 
 class EventsViewSet(viewsets.ModelViewSet):
-    queryset = Event.objects.all().order_by('datetime')
+    queryset = Event.objects.all().order_by('start_datetime')
     serializer_class = EventsSerializer
 
 

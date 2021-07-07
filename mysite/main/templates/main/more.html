@@ -4,7 +4,7 @@
     <div class="card mb-3">
         <div class="card-header" id="more-event-header">
             <h5 id="more-event-name">{{ event.host }} vs {{ event.guest }}</h5>
-            <p id="more-event-datetime">{{ event.datetime|date:"H:i, d.m.Y" }}</p>
+            <p id="more-event-datetime">{{ event.start_datetime|date:"H:i, d.m.Y" }}</p>
         </div>
         <div class="card-body">
             <table class="events-table" width="100%">

@@ -7,7 +7,8 @@ from .models import Event, Coupon, Wallet
 class EventsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Event
-        fields = ['id', 'host', 'guest', 'types', 'datetime']
+        fields = ['id', 'host', 'guest', 'types', 'start_datetime']
+        read_only_fields = ['id', 'host', 'guest', 'types', 'start_datetime']
 
 
 class CouponsSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,7 +30,3 @@ class WalletSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['owner', 'money']
         read_only_fields = ['owner']
 
-    def update(self, instance, validated_data):
-        instance.money = validated_data['money']
-        instance.save()
-        return instance

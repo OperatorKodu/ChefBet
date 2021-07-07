@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
     'rest_framework',
-    'django_json_widget',  # musisz sobie Michał zainstalować pakiet komendą:"pip install django-json-widget"
+    'django_json_widget',  # potrzebny pakiet:"pip install django-json-widget"
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'main'
 LOGOUT_REDIRECT_URL = 'main'
+
+CRONJOBS = [
+    ('* * * * *', 'main.cron.resultRandomizer', '>> /tmp/cron.log 2>&1'),
+    ('* * * * *', 'main.cron.couponChecker', '>> /tmp/cron.log 2>&1')
+]
