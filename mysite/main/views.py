@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.template import loader
@@ -100,17 +100,27 @@ def test(request):
 
 
 def top_up_wallet(request):
-    template = loader.get_template('main/top_up_wallet.html')
-    context = {}
-    return HttpResponse(template.render(context, request))
+
+    if request.user.is_authenticated:
+        template = loader.get_template('main/top_up_wallet.html')
+        context = {}
+        return HttpResponse(template.render(context, request))
+
+    else:
+        return HttpResponseNotFound('<h1>Page was found</h1>')
 
 
 def my_coupons(request):
-    template = loader.get_template('main/my_coupons.html')
-    coupons_set = Coupon.objects.get_queryset()
-    my_coupons_set = coupons_set.filter(author=request.user)
-    context = {"my_coupons_set": my_coupons_set}
-    return HttpResponse(template.render(context, request))
+
+    if request.user.is_authenticated:
+        template = loader.get_template('main/my_coupons.html')
+        coupons_set = Coupon.objects.get_queryset()
+        my_coupons_set = coupons_set.filter(author=request.user)
+        context = {"my_coupons_set": my_coupons_set}
+        return HttpResponse(template.render(context, request))
+
+    else:
+        return HttpResponseNotFound('<h1>Page was found</h1>')
 
 
 class EventsViewSet(viewsets.ModelViewSet):

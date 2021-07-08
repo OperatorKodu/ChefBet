@@ -1,5 +1,4 @@
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'base/style.css' %}">
 
 <!DOCTYPE html>
 <html lang="pl">
@@ -16,15 +15,15 @@
     <script src="{% static 'main/scripts.js' %}"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" href=" {% static 'main/style.css' %}">
+    <link rel="stylesheet" type="text/css" href=" {% static 'main/style1.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
-<body>
+<body class="bg-gray">
 <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
-    <div class="border-end bg-white" id="sidebar-wrapper">
-        <div class="sidebar-heading border-bottom"><h5> Kategorie</h5></div>
-        <div class="list-group" id="boczek" style="background-color: #ffff2e; padding: 20px;">
+    <div class="border-end bg-gray" id="sidebar-wrapper" style="padding-left: 30px; padding-right: 30px">
+        <div class="sidebar-heading border-bottom bg-warning"><h5> Kategorie</h5></div>
+        <div class="list-group" id="boczek">
             {% for category in category_set %}
 
                 <a class="list-group-item list-group-item-action bg-dark text-white"
@@ -41,7 +40,7 @@
     <!-- Page content wrapper-->
     <div id="page-content-wrapper">
         <!-- Top navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light border-bottom">
+        <nav class="navbar navbar-expand-lg navbar-light border-bottom bg-warning">
             <div class="container-fluid">
                 <button class="btn-chefbet" id="sidebarToggle"><span class="navbar-toggler-icon"></span></button>
                 <div class="navbar-header">
@@ -54,8 +53,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active"><a class="nav-link" href="{% url 'main' %}">Home</a></li>
+                        {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'my-coupons' %}">Moje kupony</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'top-up-wallet' %}">Doładuj konto</a></li>
+                        {% endif %}
 
                     </ul>
                     {% if user.is_authenticated %}
@@ -89,18 +90,9 @@
         <!-- Page content-->
         <div class="container-fluid">
             <br>
-            <h2 class="mt-4">Chef Bet - obstawiasz jak SZEF, wygrywasz jak SZEF</h2>
+            <h2 class="mt-4 text-warning">Chef Bet - obstawiasz jak SZEF, wygrywasz jak SZEF</h2>
             <br>
-            <p>Bądź szefem! Aby wybrać konkretną kategorię naciśnij biały przycisk na górze ekranu. </p>
-            {#            <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on#}
-            {#                larger screens. When toggled using the button below, the menu will change.</p>#}
-            {#            <p>#}
-            {#                Make sure to keep all page content within the#}
-            {#                <code>#page-content-wrapper</code>#}
-            {#                . The top navbar is optional, and just for demonstration. Just create an element with the#}
-            {#                <code>#sidebarToggle</code>#}
-            {#                ID which will toggle the menu when clicked.#}
-            {#            </p>#}
+            <p class="text-warning">Bądź szefem! Aby wybrać konkretną kategorię naciśnij biały przycisk na górze ekranu. </p>
             <div class="row">
                 <div class="col-lg-8" id="main-content-container">
                     {% block content %}
@@ -108,7 +100,7 @@
                 </div>
                 <div class="col-lg-4" id="coupon-container">
                     <div class="card bg-dark text-white mb-3">
-                        <div class="card-header">
+                        <div class="card-header bg-warning fg-dark">
                             Stwórz kupon
                         </div>
                         <div class="card-body">

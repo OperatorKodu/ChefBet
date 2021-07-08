@@ -127,6 +127,5 @@ LOGIN_REDIRECT_URL = 'main'
 LOGOUT_REDIRECT_URL = 'main'
 
 CRONJOBS = [
-    ('* * * * *', 'main.cron.resultRandomizer', '>> /tmp/cron.log 2>&1'),
-    ('* * * * *', 'main.cron.couponChecker', '>> /tmp/cron.log 2>&1')
+    ('* * * * *', 'main.cron.resultRandomizer', '>> /tmp/cron.log 2>&1')
 ]

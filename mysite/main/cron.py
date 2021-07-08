@@ -24,6 +24,8 @@ def resultRandomizer():
 
             event.save()
 
+    couponChecker()
+
 
 def couponChecker():
     print('couponChecker()')
@@ -34,6 +36,7 @@ def couponChecker():
         wallet.save()
 
     coupons_set = Coupon.objects.filter(is_active=True)
+
     for coupon in coupons_set:
         bets_count = len(coupon.types)
         correct_types_counter = 0
@@ -46,7 +49,6 @@ def couponChecker():
 
             for type in event.types:
                 if type['id'] == bet['type_id']:
-                    print(type['correct_types'], '==', bet['type'])
                     if bet['type'] in type['correct_types']:
                         correct_types_counter += 1
                     break
