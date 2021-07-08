@@ -1,9 +1,15 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <h2>Doładuj portfel</h2>
+    <div class="card bg-dark text-white mb-3">
+        <div class="card-header bg-warning fg-dark">
+            Doładuj portfel
+        </div>
+        <div class="card-body">
     <label>Kwota
         <input id="top-up-amount" type="number">
     </label>
     <button id="top-up-wallet" class="btn btn-danger">Doładuj</button>
+        </div>
+    </div>
 {% endblock %}

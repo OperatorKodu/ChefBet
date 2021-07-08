@@ -1,8 +1,8 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    <div class="card mb-3">
-        <div class="card-header" id="more-event-header">
+    <div class="card mb-3 bg-dark">
+        <div class="card-header bg-warning" id="more-event-header">
             <h5 id="more-event-name">{{ event.host }} vs {{ event.guest }}</h5>
             <p id="more-event-datetime">{{ event.start_datetime|date:"H:i, d.m.Y" }}</p>
         </div>
@@ -11,18 +11,18 @@
                 <tbody>
                 {% for bet in event.types %}
                     <tr>
-                        <td width="35%"><p class="more-event-description">{{ bet.description }}</p></td>
+                        <td width="35%"><p class="more-event-description text-warning">{{ bet.description }}</p></td>
                         {% for possibility in bet.possibilities %}
                             <td width="*">
                                 <table style="margin: auto">
                                     <tr>
                                         <td class="td-center">
-                                            <button class="btn btn-light no-click">{{ possibility.type }}</button>
+                                            <button class="btn btn-outline-warning no-click">{{ possibility.type }}</button>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="td-center">
-                                            <button class="{{ event.id }} {{ bet.id }} {{ possibility.id }} btn btn-primary odds-btn">{{ possibility.odds }}</button>
+                                            <button class="{{ event.id }} {{ bet.id }} {{ possibility.id }} btn btn-warning odds-btn">{{ possibility.odds }}</button>
                                         </td>
                                     </tr>
                                 </table>

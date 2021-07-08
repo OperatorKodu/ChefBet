@@ -79,7 +79,7 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     }
 
     body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
-        margin-left: -20rem;
+        margin-left: -15rem;
     }
 }
 
@@ -89,4 +89,40 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 
 .fg-dark {
     color: black;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+#new-coupon-container {
+    min-height: 500px;
+}
+
+#new-coupon-top {
+    position: relative;
+}
+
+#new-coupon-bottom {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+#coupon-events-table {
+    width: 100%;
+}
+
+#coupon-summary-table {
+    width: 100%;
+}
+
+#summary-contribution {
+    border: 2px solid white;
+    border-radius: 4px;
+    color: white;
+}
+
+#main-content-container {
+    padding-left: 30px;
 }

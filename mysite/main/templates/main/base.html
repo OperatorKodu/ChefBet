@@ -21,12 +21,12 @@
 <body class="bg-gray">
 <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
-    <div class="border-end bg-gray" id="sidebar-wrapper" style="padding-left: 30px; padding-right: 30px">
+    <div class="border-end bg-gray" id="sidebar-wrapper">
         <div class="sidebar-heading border-bottom bg-warning"><h5> Kategorie</h5></div>
         <div class="list-group" id="boczek">
             {% for category in category_set %}
 
-                <a class="list-group-item list-group-item-action bg-dark text-white"
+                <a class="list-group-item list-group-item-action bg-dark text-warning"
                    href="{% url 'category' category.name %}">{{ category.name }}</a>
                 <br>
             {% endfor %}
@@ -42,7 +42,7 @@
         <!-- Top navigation-->
         <nav class="navbar navbar-expand-lg navbar-light border-bottom bg-warning">
             <div class="container-fluid">
-                <button class="btn-chefbet" id="sidebarToggle"><span class="navbar-toggler-icon"></span></button>
+                <button class="btn-warning btn" id="sidebarToggle"><span class="navbar-toggler-icon"></span></button>
                 <div class="navbar-header">
                     <h2> &nbsp; ChefBet &nbsp;</h2>
                 </div>
@@ -61,14 +61,13 @@
                     </ul>
                     {% if user.is_authenticated %}
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item"><label for="wallet-content">Portfel:</label><input id="wallet-content"
+                            <li class="nav-item"><label for="wallet-content"><h5>$</h5></label><input id="wallet-content" class="bg-warning"
                                                                                                     type="number"
-                                                                                                    disabled
-                                                                                                    style="width: 100px">
+                                                                                                    readonly style="width: 70px; border: 2px solid black; border-radius: 4px">
                             </li>
                             <li class="nav-item"><h3>&nbsp Witaj <b><i>{{ user.username }}</i></b> &nbsp</h3></li>
                             <li class="nav-item"><a href="{% url 'logout' %}">
-                                <button class="btn btn-secondary">Wyloguj</button>
+                                <button class="btn btn-outline-dark">Wyloguj</button>
                             </a></li>
                         </ul>
                         {{ user.id|json_script:"user_id" }}
@@ -76,7 +75,7 @@
                         <ul class="navbar-nav ml-auto">
                             <li>
                                 <a href="{% url 'login' %}">
-                                    <button class="btn btn-light">Zaloguj się</button>
+                                    <button class="btn btn-outline-dark">Zaloguj się</button>
                                 </a>
                                 <a href="{% url 'signup' %}">
                                     <button class="btn btn-dark">Zarejestruj</button>
@@ -90,46 +89,49 @@
         <!-- Page content-->
         <div class="container-fluid">
             <br>
-            <h2 class="mt-4 text-warning">Chef Bet - obstawiasz jak SZEF, wygrywasz jak SZEF</h2>
+            <h2 class="mt-4 text-warning" style="text-align: center">Chef Bet - obstawiasz jak SZEF, wygrywasz jak SZEF</h2>
             <br>
-            <p class="text-warning">Bądź szefem! Aby wybrać konkretną kategorię naciśnij biały przycisk na górze ekranu. </p>
+            <p class="text-warning" style="text-align: center">Bądź szefem! Aby wybrać konkretną kategorię naciśnij biały przycisk na górze ekranu. </p>
             <div class="row">
-                <div class="col-lg-8" id="main-content-container">
+                <div class="col-lg-9" id="main-content-container">
                     {% block content %}
                     {% endblock %}
                 </div>
-                <div class="col-lg-4" id="coupon-container">
+                <div class="col-lg-3" id="coupon-container">
                     <div class="card bg-dark text-white mb-3">
                         <div class="card-header bg-warning fg-dark">
                             Stwórz kupon
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" id="new-coupon-container">
+                            <div id="new-coupon-top">
                             <div id="new-coupon-types">
                                 <table id="coupon-events-table">
                                     <thead>
                                     <tr>
-                                        <th>Spotkanie &nbsp &nbsp &nbsp &nbsp</th>
-                                        <th>Typ &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</th>
-                                        <th>Kurs &nbsp</th>
+                                        <th style="width: 60%;">Spotkanie</th>
+                                        <th style="width: 20%;">Typ</th>
+                                        <th style="width: 20%">Kurs</th>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
                             </div>
+                            </div>
+                            <div id="new-coupon-bottom">
                             <div id="new-coupon-summary">
                                 <table id="coupon-summary-table">
                                     <thead>
                                     <tr>
-                                        <th>Kurs całkowity &nbsp</th>
-                                        <th>Stawka &nbsp</th>
-                                        <th>Wygrana &nbsp</th>
+                                        <th style="width: 33%">Kurs całkowity</th>
+                                        <th style="width: 33%">Stawka</th>
+                                        <th style="width: 33%">Wygrana</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
                                         <td id="summary-odds">1</td>
                                         <td><label>
-                                            <input id="summary-contribution" type="number" value="5"
+                                            <input id="summary-contribution" class="bg-gray" type="number" value="5"
                                                    style="width: 70px">
                                         </label></td>
                                         <td id="summary-prize"></td>
@@ -152,6 +154,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -164,7 +167,7 @@
 
     <!-- Copyright -->
     <br>
-    <div class="footer-copyright text-center text-dark py-3" style="background-color: yellow;"><p>Mmmmmmm... st00pka</p>
+    <div class="footer-copyright text-center text-dark py-3 bg-warning"><p>Mmmmmmm... st00pka</p>
     </div>
     <!-- Copyright -->
 

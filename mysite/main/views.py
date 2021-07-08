@@ -1,3 +1,4 @@
+import math
 from datetime import datetime
 from django.utils import timezone
 from random import randint
@@ -150,7 +151,9 @@ class CouponsViewSet(viewsets.ModelViewSet):
 
                     break
 
+        factor = round(factor, 2)
         prize = serializer.validated_data['contribution'] * factor
+        prize = round(prize, 2)
 
         serializer.save(author=self.request.user, odds=factor, prize=prize)
 

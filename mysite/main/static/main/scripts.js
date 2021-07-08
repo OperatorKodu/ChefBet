@@ -57,13 +57,14 @@ window.addEventListener('DOMContentLoaded', event => {
             localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
         });
     }
+
     displayWalletContent();
+
     $(document).on('click', '.odds-btn', function (e) {
 
         function tableContains(id) {
             let matched = false;
             $('#coupon-events-table tbody tr').each(function () {
-                //console.log($(this).attr('id') + "=" + parseInt(id));
                 if (parseInt($(this).attr('id')) === parseInt(id)) {
                     matched = true
                     return true;
@@ -111,9 +112,9 @@ window.addEventListener('DOMContentLoaded', event => {
                 let old_odds = parseFloat($('#summary-odds').text());
                 let summary_odds = old_odds * odds;
                 console.log(summary_odds);
-                $('#summary-odds').text(summary_odds);
+                $('#summary-odds').text(summary_odds.toFixed(2));
                 let summary_prize = parseFloat($('#summary-contribution').val()) * summary_odds;
-                $('#summary-prize').text(summary_prize);
+                $('#summary-prize').text(summary_prize.toFixed(2));
 
             }).fail(function (xhr, status, errorThrown) {
                 alert("Nie udalo sie pobrac danych.");
