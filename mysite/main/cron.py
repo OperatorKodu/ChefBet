@@ -8,8 +8,8 @@ from .models import Event, Wallet, Coupon
 def resultRandomizer():
     print('resultRandomizer()')
     event_set = Event.objects.filter(is_settled=False)
-
     for event in event_set:
+
         if event.end_datetime <= timezone.now():
 
             for bet in event.types:

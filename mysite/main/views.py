@@ -62,6 +62,7 @@ def signup(request):
 
 
 def test(request):
+    print('couponChecker()')
 
     def sendPrize(owner, prize):
         wallet = Wallet.objects.get(owner=owner)
@@ -69,6 +70,7 @@ def test(request):
         wallet.save()
 
     coupons_set = Coupon.objects.filter(is_active=True)
+
     for coupon in coupons_set:
         bets_count = len(coupon.types)
         correct_types_counter = 0
@@ -81,7 +83,6 @@ def test(request):
 
             for type in event.types:
                 if type['id'] == bet['type_id']:
-                    print(type['correct_types'], '==', bet['type'])
                     if bet['type'] in type['correct_types']:
                         correct_types_counter += 1
                     break
@@ -95,8 +96,6 @@ def test(request):
                 sendPrize(coupon.author, coupon.prize)
 
         coupon.save()
-
-
     return HttpResponse("chyba dziala")
 
 
